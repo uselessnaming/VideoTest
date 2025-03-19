@@ -1,6 +1,13 @@
+import java.util.Properties
+
+val properties = Properties().apply{
+    load(project.rootProject.file("local.properties").inputStream())
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -18,6 +25,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "YOUTUBE_URL", properties["YOUTUBE_URL"].toString())
     }
 
     buildTypes {
@@ -51,6 +59,7 @@ android {
 
 dependencies {
 
+    implementation(libs.serialization.json)
     implementation(libs.bundles.retrofit)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
